@@ -120,10 +120,11 @@ It provides a simple form to submit a GitHub URL and view the formatted summary 
 The default model is **`Qwen/Qwen3-30B-A3B-Instruct-2507`**.
 
 This model was chosen for several reasons:
-- **Code comprehension** — Qwen3 performs strongly on code-related tasks, including reading multi-file repositories and identifying architectural patterns.
-- **Instruction following** — it reliably produces structured JSON output (required for the schema-enforced response format), reducing parsing failures.
-- **Cost/quality balance** — at 30B parameters with a Mixture-of-Experts architecture (only ~3B active per forward pass), it delivers near-70B quality at lower inference cost.
-- **Nebius availability** — it is a first-class model on the Nebius Token Factory platform and is demonstrated in their official examples.
+- **Code comprehension**- Qwen3 performs strongly on code-related tasks, including reading multi-file repositories and identifying architectural patterns.
+- **Instruct model**- Qwen3-Instruct has been fine-tuned to be able to follow prompted instructions.
+- **Instruction following**- it reliably produces structured JSON output (required for the schema-enforced response format), reducing parsing failures.
+- **Cost/quality balance**- at 30B parameters with a Mixture-of-Experts architecture (only ~3B active per forward pass), it delivers near-70B quality at lower inference cost.
+- **Nebius availability**- it is a first-class model on the Nebius Token Factory platform and is demonstrated in their official examples.
 
 To use a different model, set `NEBIUS_MODEL` in your `.env`. Any model available on
 [Nebius Token Factory](https://nebius.ai) that supports the OpenAI-compatible `json_schema` response format will work.
