@@ -157,5 +157,3 @@ Files are scored and ranked by relevance. The processor fills the prompt up to a
 - **Prompt engineering:** strict JSON schema output via Nebius `response_format` (documented). :contentReference[oaicite:2]{index=2}
 - **Modularity:** GitHub client / repo processing / LLM client / summarizer separated.
 
-If you want, I can also add: (a) a `/health` endpoint, (b) optional streaming, or (c) a 2-pass summarization path for giant repos (summarize files → summarize summaries) — but the above already satisfies the blocking criteria cleanly.
-::contentReference[oaicite:3]{index=3}
