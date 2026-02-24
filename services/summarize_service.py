@@ -8,12 +8,13 @@ from typing import Any, Dict, Optional, Tuple
 
 from cachetools import TTLCache
 
-from ..services.github_client import GitHubClient
-from ..services.repo_processor import RepoContext, select_and_load_files
-from ..services.llm_client import NebiusLLMClient
-from ..services.summarizer import RepoSummarizer
-from ..utils.errors import upstream_error
+from services.github_client import GitHubClient
+from services.repo_processor import RepoContext, select_and_load_files
+from services.llm_client import NebiusLLMClient
+from services.summarizer import RepoSummarizer
+from utils.errors import upstream_error
 
+# We use async coding for all NebiusLLMClient interactions to allow for concurrent requests to prevent bottlenecks. 
 
 class SummarizeService:
     def __init__(self, github: GitHubClient, llm: NebiusLLMClient) -> None:

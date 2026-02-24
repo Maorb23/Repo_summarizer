@@ -8,9 +8,9 @@ from typing import Any, Dict, List
 
 from pydantic import BaseModel, Field
 
-from ..services.llm_client import NebiusLLMClient
-from ..services.repo_processor import RepoContext, SelectedFile
-from ..utils.text import truncate
+from services.llm_client import NebiusLLMClient
+from services.repo_processor import RepoContext, SelectedFile
+from utils.text import truncate
 
 
 class LlmSummary(BaseModel):
@@ -66,7 +66,7 @@ class RepoSummarizer:
         schema = LlmSummary.model_json_schema()
 
         # Prefer strict json_schema mode; fall back to json_object if needed.
-        raw = await self.llm.chat_json_schema(messages=messages, json_schema=schema)
+        raw = await self.llm.chat_json_schema(messages=messages, json_schema=schema, schema_name="LlmSummary")
 
         try:
             data = json.loads(raw)

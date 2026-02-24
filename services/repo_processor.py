@@ -9,8 +9,10 @@ from pathlib import PurePosixPath
 from typing import Any, Dict, List, Optional, Tuple
 import json
 
-from ..settings import settings
-from ..utils.text import BINARY_EXTS, is_probably_binary_bytes, safe_b64decode, truncate
+from settings import settings
+from utils.text import BINARY_EXTS, is_probably_binary_bytes, safe_b64decode, truncate
+
+# We use async coding for all Github client interactions to allow for concurrent requests to prevent bottlenecks. 
 
 
 IGNORE_DIRS = {
@@ -34,7 +36,7 @@ IMPORTANT_BASENAMES = [
     "Pipfile", "environment.yml",
     "Dockerfile", "docker-compose.yml", "compose.yml",
     "mkdocs.yml", "docs/conf.py",
-    "manage.py", "wsgi.py", "asgi.py",
+    "manage.py", "wsgi.py", "asgi.py", "app.py", "main.py"
     "package.json", "tsconfig.json",
     "go.mod", "Cargo.toml",
 ]

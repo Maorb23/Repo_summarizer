@@ -7,9 +7,12 @@ from typing import Any, Dict, List
 
 from openai import AsyncOpenAI
 
-from ..settings import settings
-from ..utils.errors import upstream_error
+from settings import settings
+from utils.errors import upstream_error
 
+# We use async coding for all Nebius interactions to allow for concurrent requests to prevent bottlenecks. 
+# The AsyncOpenAI client is used for this purpose.
+# Moreover, it works well with FastAPI's async nature.
 
 class NebiusLLMClient:
     """
@@ -37,6 +40,7 @@ class NebiusLLMClient:
         self,
         messages: List[Dict[str, str]],
         json_schema: Dict[str, Any],
+        schema_name: str = "response",
         model: str | None = None,
         max_tokens: int | None = None,
         temperature: float | None = None,
@@ -52,7 +56,11 @@ class NebiusLLMClient:
                 max_tokens=max_tokens or settings.llm_max_tokens,
                 response_format={
                     "type": "json_schema",
-                    "json_schema": json_schema,
+                    "json_schema": {
+                        "name": schema_name,
+                        "schema": json_schema,
+                        "strict": True,
+                    },
                 },
             )
             return resp.choices[0].message.content or ""

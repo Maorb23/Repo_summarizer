@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Repo Summarizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 min-h-screen flex flex-col items-center py-16 px-4">
+
+  <div class="w-full max-w-2xl">
+    <h1 class="text-3xl font-bold text-white mb-2">Repo Summarizer</h1>
+    <p class="text-gray-400 mb-8">Paste a public GitHub repository URL to get an AI-generated summary.</p>
+
+    <form method="post" action="/ui/">
+      {% csrf_token %}
+      <div class="flex gap-2">
+        <input
+          type="url"
+          name="github_url"
+          placeholder="https://github.com/owner/repo"
+          value="{{ github_url }}"
+          required
+          class="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500"
+        />
+        <button
+          type="submit"
+          class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+        >
+          Summarize
+        </button>
+      </div>
+    </form>
+
+    {% if error %}
+    <div class="mt-6 bg-red-900/50 border border-red-700 rounded-lg p-4 text-red-300">
+      {{ error }}
+    </div>
+    {% endif %}
+
+    {% if result %}
+    <div class="mt-8 space-y-6">
+
+      <div class="bg-gray-900 border border-gray-800 rounded-lg p-6">
+        <h2 class="text-lg font-semibold text-indigo-400 mb-3">Summary</h2>
+        <p class="text-gray-200 leading-relaxed whitespace-pre-wrap">{{ result.summary }}</p>
+      </div>
+
+      <div class="bg-gray-900 border border-gray-800 rounded-lg p-6">
+        <h2 class="text-lg font-semibold text-indigo-400 mb-3">Technologies</h2>
+        <div class="flex flex-wrap gap-2">
+          {% for tech in result.technologies %}
+          <span class="bg-indigo-900/60 text-indigo-300 text-sm px-3 py-1 rounded-full border border-indigo-700">
+            {{ tech }}
+          </span>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="bg-gray-900 border border-gray-800 rounded-lg p-6">
+        <h2 class="text-lg font-semibold text-indigo-400 mb-3">Project Structure</h2>
+        <p class="text-gray-200 leading-relaxed whitespace-pre-wrap">{{ result.structure }}</p>
+      </div>
+
+    </div>
+    {% endif %}
+
+  </div>
+</body>
+</html>

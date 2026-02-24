@@ -1,8 +1,8 @@
 # /api/summarize.py
 # This module defines the API endpoint for summarizing a GitHub repository. It uses FastAPI to
 from fastapi import APIRouter, Depends
-from ..api.schemas import SummarizeRequest, SummarizeResponse
-from ..services.summarize_service import SummarizeService
+from api.schemas import SummarizeRequest, SummarizeResponse
+from services.summarize_service import SummarizeService
 
 router = APIRouter()
 

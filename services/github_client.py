@@ -4,14 +4,18 @@ import re
 from typing import Any, Dict, List, Optional, Tuple
 import httpx
 
-from ..settings import settings
-from ..utils.errors import bad_request, not_found, upstream_error
+from settings import settings
+from utils.errors import bad_request, not_found, upstream_error
 
 
 GITHUB_REPO_RE = re.compile(
     r"^https?://github\.com/(?P<owner>[^/]+)/(?P<repo>[^/#?]+)"
 )
 
+# We use async coding for all GitHub interactions to allow for concurrent requests to prevent 
+# bottlenecks, especially on larger repos where we need to fetch multiple files and metadata. 
+# The httpx.AsyncClient is used for this purpose.
+# Moreover, it works well with FastAPI's async nature.
 
 class GitHubClient:
     def __init__(self) -> None:
@@ -27,6 +31,7 @@ class GitHubClient:
             base_url=settings.github_api_base,
             headers=headers,
             timeout=httpx.Timeout(settings.http_timeout_s),
+            follow_redirects=True,
         )
 
     async def aclose(self) -> None:
@@ -38,8 +43,12 @@ class GitHubClient:
         if not m:
             raise bad_request("github_url must be a public GitHub repo URL like https://github.com/OWNER/REPO")
         owner = m.group("owner")
-        repo = m.group("repo").rstrip(".git")
+        repo = m.group("repo")
+        if repo.endswith(".git"): # For example with https://github.com/fastapi/fastapi
+            repo = repo[:-4]
         return owner, repo
+    
+    
 
     async def get_repo(self, owner: str, repo: str) -> Dict[str, Any]:
         r = await self._client.get(f"/repos/{owner}/{repo}")
