@@ -154,6 +154,5 @@ Files are scored and ranked by relevance. The processor fills the prompt up to a
 - **Modularity:** GitHub client / repo processing / LLM client / summarizer separated.
 - **File filtering:** ignores obvious noise dirs + binaries + lockfiles; prioritizes README + configs + representative source files.
 - **Context window strategy:** explicit *total prompt budget* + per-file truncation + “readme-first”.
-- **Prompt engineering:** strict JSON schema output via Nebius `response_format` (documented). :contentReference[oaicite:2]{index=2}
-
+- **Prompt engineering:** strict JSON schema output via Nebius's LLM client.
 
