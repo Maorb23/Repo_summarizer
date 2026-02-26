@@ -134,7 +134,7 @@ To use a different model, set `NEBIUS_MODEL` in your `.env`. Any model available
 ## Repo Content Strategy
 
 **Included (prioritized):**
-- `README` — highest priority, larger context budget allowed
+- `README` — highest priority, larger context budget allowed. For other files prioritization based on file importance and scoring mechanism.
 - Key config files: `pyproject.toml`, `requirements.txt`, `setup.py`, `package.json`, `Dockerfile`, CI configs
 - Representative source files under `src/`, `app/`, `tests/`, `docs/`
 
@@ -150,10 +150,10 @@ Files are scored and ranked by relevance. The processor fills the prompt up to a
 
 ---
 
-## Why these key decisions map to your rubric
-
+## **Overall Workflow:**
+- **Modularity:** GitHub client / repo processing / LLM client / summarizer separated.
 - **File filtering:** ignores obvious noise dirs + binaries + lockfiles; prioritizes README + configs + representative source files.
 - **Context window strategy:** explicit *total prompt budget* + per-file truncation + “readme-first”.
 - **Prompt engineering:** strict JSON schema output via Nebius `response_format` (documented). :contentReference[oaicite:2]{index=2}
-- **Modularity:** GitHub client / repo processing / LLM client / summarizer separated.
+
 

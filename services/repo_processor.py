@@ -104,6 +104,10 @@ def _is_text_candidate(path: str) -> bool:
 
 
 def score_path(path: str, size: int | None) -> Tuple[int, str]:
+    """
+    Takes a file path and optional size, and returns a score representing how informative the file is likely 
+    to be for summarization, along with a reason string. Higher scores indicate more informative files.
+    """
     base = _basename(path)
     p = PurePosixPath(path)
 
@@ -215,7 +219,7 @@ async def select_and_load_files(
         candidates.append((score, path, reason, size))
 
     # cap huge repos
-    candidates.sort(key=lambda x: x[0], reverse=True)
+    candidates.sort(key=lambda x: x[0], reverse=True) # sort by score descending
     candidates = candidates[: settings.max_files * 4]  # extra buffer before fetching
 
     structure_hint = build_structure_hint(all_paths)
